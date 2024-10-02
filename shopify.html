@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEasy - Smartphones at its Best</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS for Styling -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: #000000;
+            font-size: 1.8rem;
+        }
+        .navbar-nav .nav-link {
+            color: #555555;
+            font-size: 1.1rem;
+            margin-right: 20px;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #000000;
+        }
+        .nav-item .cart-count {
+            font-weight: bold;
+            color: red;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            background: url('https://i.guim.co.uk/img/media/2ce8db064eabb9e22a69cc45a9b6d4e10d595f06/392_612_4171_2503/master/4171.jpg?width=1900&dpr=2&s=none') no-repeat center center/cover;
+            height: 80vh;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+        .search-bar {
+            background: white;
+            width: 80%;
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 10px 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 50px;
+            display: flex;
+        }
+        .search-bar input {
+            border: none;
+            padding: 10px 20px;
+            flex: 1;
+            border-radius: 50px 0 0 50px;
+            outline: none;
+        }
+        .search-bar button {
+            background-color: #000000;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 0 50px 50px 0;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: #333333;
+        }
+
+        /* Product Section */
+        .product-card {
+            border: none;
+            background: white;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .product-card:hover img {
+            transform: scale(1.1);
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+        .product-card .card-body {
+            padding: 15px;
+        }
+        .product-card .btn {
+            background-color: #000000;
+            color: white;
+            border-radius: 50px;
+            padding: 10px 20px;
+        }
+        .product-card .btn:hover {
+            background-color: #333333;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #222;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        .footer a {
+            color: #ffffff; /* Changed to white for better contrast */
+            margin: 0 10px;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">ShopEasy</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showLoginModal()">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Cart (<span class="cart-count">0</span>)</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section with Search -->
+<section class="hero-section">
+    <div class="container">
+        <h1>Smartphones that Define You</h1>
+        <p class="lead">Discover the latest models and shop from top brands</p>
+        <div class="search-bar">
+            <input type="text" id="searchQuery" placeholder="Search for smartphones, brands, and more" />
+            <button onclick="searchProduct()">Search</button>
+        </div>
+    </div>
+</section>
+
+<!-- Product Results Section -->
+<section class="container mt-5">
+    <h2 class="text-center mb-5">Search Results</h2>
+    <div id="productResults" class="row g-4">
+        <!-- Product Cards will appear here dynamically -->
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2024 ShopEasy | Designed by Code Copilot</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </div>
+</footer>
+
+<!-- Login Modal -->
+<div class="modal" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" placeholder="Enter username">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter password">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="login()">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap and JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Font Awesome for Icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<!-- Amazon and Flipkart API Integration (Placeholder) -->
+<script>
+    let cart = [];
+
+    async function searchProduct() {
+        const query = document.getElementById('searchQuery').value.trim();
+        const resultsDiv = document.getElementById('productResults');
+        resultsDiv.innerHTML = ''; // Clear previous results
+
+        if (!query) {
+            alert('Please enter a search query.');
+            return;
+        }
+
+        // Simulate API Call to Amazon and Flipkart
+        // Replace with actual API calls when API keys are obtained
+        const amazonProducts = await fetchAmazonAPI(query);
+        const flipkartProducts = await fetchFlipkartAPI(query);
+
+        const combinedProducts = [...amazonProducts, ...flipkartProducts];
+
+        if (combinedProducts.length === 0) {
+            resultsDiv.innerHTML = '<p class="text-center">No products found.</p>';
+            return;
+        }
+
+        combinedProducts.forEach(product => {
+            const productCard = `
+          <div class="col-md-4">
+            <div class="card product-card">
+              <img src="${product.image}" class="card-img-top" alt="${product.name}" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x200?text=Image+Not+Available';">
+              <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text">$${product.price}</p>
+                <a href="${product.link}" class="btn btn-primary" target="_blank">Buy Now</a>
+                <button class="btn btn-secondary" onclick="addToCart('${product.name}', '${product.price}', '${product.link}')">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        `;
+            resultsDiv.insertAdjacentHTML('beforeend', productCard);
+        });
+    }
+
+    // Placeholder function for Amazon API
+    async function fetchAmazonAPI(query) {
+        // Simulate product data from Amazon
+        return [
+            {
+                name: 'Amazon Smartphone Galaxy S23',
+                price: 999,
+                link: 'https://amazon.com/dp/example1',
+                image: 'https://i.guim.co.uk/img/media/2ce8db064eabb9e22a69cc45a9b6d4e10d595f06/392_612_4171_2503/master/4171.jpg?width=1900&dpr=2&s=none'
+            },
+            {
+                name: 'Amazon Smartphone Pixel 7',
+                price: 899,
+                link: 'https://amazon.com/dp/example2',
+                image: 'https://i.guim.co.uk/img/media/2ce8db064eabb9e22a69cc45a9b6d4e10d595f06/392_612_4171_2503/master/4171.jpg?width=1900&dpr=2&s=none'
+            }
+        ];
+    }
+
+    // Placeholder function for Flipkart API
+    async function fetchFlipkartAPI(query) {
+        // Simulate product data from Flipkart
+        return [
+            {
+                name: 'Flipkart Smartphone OnePlus 11',
+                price: 799,
+                link: 'https://flipkart.com/product/example1',
+                image: 'https://i.guim.co.uk/img/media/2ce8db064eabb9e22a69cc45a9b6d4e10d595f06/392_612_4171_2503/master/4171.jpg?width=1900&dpr=2&s=none'
+            },
+            {
+                name: 'Flipkart Smartphone iPhone 14',
+                price: 1099,
+                link: 'https://flipkart.com/product/example2',
+                image: 'https://i.guim.co.uk/img/media/2ce8db064eabb9e22a69cc45a9b6d4e10d595f06/392_612_4171_2503/master/4171.jpg?width=1900&dpr=2&s=none'
+            }
+        ];
+    }
+
+    // Add to Cart function
+    function addToCart(name, price, link) {
+        cart.push({ name, price, link });
+        document.querySelector('.cart-count').innerText = cart.length;
+        alert(`${name} has been added to your cart`);
+    }
+
+    // Show login modal
+    function showLoginModal() {
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+    }
+
+    // Login functionality (simple local storage login for demo purposes)
+    function login() {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        if (username && password) {
+            localStorage.setItem('user', JSON.stringify({ username }));
+            alert('Logged in successfully');
+            const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+            loginModal.hide();
+            // Optionally, update the navbar to show the user's name or change Login to Logout
+        } else {
+            alert('Please enter a valid username and password');
+        }
+    }
+</script>
+
+</body>
+</html>
+
+
